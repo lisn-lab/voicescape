@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "bpm": 120,
+  "quantisation": "4n",
+  "background": "audio/background.mp3",
+  "clips": [
+    { "id": "c1",  "file": "audio/chopped/conversations-with-people.mp3",    "label": "conversations with people", "type": "oneshot", "repeat": 1, "key": "1", "category": "thought" },
+    { "id": "c2",  "file": "audio/chopped/constantly-thinking.mp3",          "label": "constantly thinking",        "type": "loop",                "key": "2", "category": "thought" },
+    { "id": "c3",  "file": "audio/chopped/visually-breaking-things-down.mp3","label": "visually breaking things down","type": "oneshot", "repeat": 1, "key": "3", "category": "thought" },
+    { "id": "c4",  "file": "audio/chopped/thoughts.mp3",                     "label": "thoughts?",                  "type": "oneshot", "repeat": 1, "key": "4", "category": "question" },
+    { "id": "c5",  "file": "audio/chopped/synapses-function.mp3",            "label": "synapses, function",         "type": "oneshot", "repeat": 1, "key": "5", "category": "thought" },
+    { "id": "c6",  "file": "audio/chopped/a-radio-dialogue.mp3",             "label": "a radio dialogue",           "type": "loop",                "key": "6", "category": "sensory" },
+    { "id": "c7",  "file": "audio/chopped/mini-me.mp3",                      "label": "mini me",                    "type": "oneshot", "repeat": 2, "key": "7", "category": "meta" },
+    { "id": "c8",  "file": "audio/chopped/my-brain-is-blank.mp3",            "label": "my brain is blank",          "type": "oneshot", "repeat": 1, "key": "8", "category": "meta" },
+    { "id": "c9",  "file": "audio/chopped/static.mp3",                       "label": "static",                     "type": "loop",                "key": "9", "category": "sensory" },
+    { "id": "c10", "file": "audio/chopped/loud-and-messy.mp3",               "label": "loud and messy",             "type": "oneshot", "repeat": 1, "key": "0", "category": "sensory" },
+
+    { "id": "c11", "file": "audio/chopped/i-worry.mp3",                      "label": "I worry",                    "type": "loop",                "key": "q", "category": "self-talk" },
+    { "id": "c12", "file": "audio/chopped/im-tired.mp3",                     "label": "I'm tired",                  "type": "loop",                "key": "w", "category": "self-talk" },
+    { "id": "c13", "file": "audio/chopped/when-frustrated.mp3",              "label": "when frustrated",            "type": "oneshot", "repeat": 1, "key": "e", "category": "self-talk" },
+    { "id": "c14", "file": "audio/chopped/vent-an-inner-monologue.mp3",      "label": "vent an inner monologue",    "type": "loop",                "key": "r", "category": "meta" },
+    { "id": "c15", "file": "audio/chopped/actively-plan.mp3",                "label": "actively plan",              "type": "oneshot", "repeat": 1, "key": "t", "category": "self-talk" },
+    { "id": "c16", "file": "audio/chopped/fully-engaged.mp3",                "label": "fully engaged",              "type": "loop",                "key": "y", "category": "self-talk" },
+    { "id": "c17", "file": "audio/chopped/i-think-in-paths.mp3",             "label": "I think in paths",           "type": "oneshot", "repeat": 1, "key": "u", "category": "meta" },
+    { "id": "c18", "file": "audio/chopped/the-task-at-hand.mp3",             "label": "the task at hand",           "type": "oneshot", "repeat": 1, "key": "i", "category": "meta" },
+    { "id": "c19", "file": "audio/chopped/an-active-experience.mp3",         "label": "an active experience",       "type": "oneshot", "repeat": 1, "key": "o", "category": "meta" },
+    { "id": "c20", "file": "audio/chopped/two-levels.mp3",                   "label": "two levels",                 "type": "oneshot", "repeat": 1, "key": "p", "category": "meta" },
+
+    { "id": "c21", "file": "audio/chopped/background-music.mp3",             "label": "background music",           "type": "loop",                "key": "a", "category": "sensory" },
+    { "id": "c22", "file": "audio/chopped/sentences-and-ideas.mp3",          "label": "sentences and ideas",        "type": "oneshot", "repeat": 1, "key": "s", "category": "sensory" },
+    { "id": "c23", "file": "audio/chopped/around-the-noise.mp3",             "label": "around the noise",           "type": "loop",                "key": "d", "category": "sensory" },
+    { "id": "c24", "file": "audio/chopped/very-loud-and-clear.mp3",          "label": "very loud and clear",        "type": "oneshot", "repeat": 1, "key": "f", "category": "sensory" },
+    { "id": "c25", "file": "audio/chopped/letters-and-numbers-as-colours.mp3","label": "letters and numbers as colours","type": "oneshot", "repeat": 1, "key": "g", "category": "sensory" },
+    { "id": "c26", "file": "audio/chopped/more-blurry.mp3",                  "label": "more blurry",                "type": "oneshot", "repeat": 2, "key": "h", "category": "sensory" },
+    { "id": "c27", "file": "audio/chopped/visualising-a-film.mp3",           "label": "visualising a film",         "type": "oneshot", "repeat": 1, "key": "j", "category": "imagery" },
+    { "id": "c28", "file": "audio/chopped/playing-out-in-my-head.mp3",       "label": "playing out in my head",     "type": "loop",                "key": "k", "category": "imagery" },
+    { "id": "c29", "file": "audio/chopped/visualise-scenes.mp3",             "label": "visualise scenes",           "type": "oneshot", "repeat": 1, "key": "l", "category": "imagery" },
+
+    { "id": "c30", "file": "audio/chopped/spontaneous-thinking.mp3",         "label": "spontaneous thinking",       "type": "oneshot", "repeat": 1, "key": "z", "category": "rhythm" },
+    { "id": "c31", "file": "audio/chopped/like-bubblegum.mp3",               "label": "like bubblegum",             "type": "oneshot", "repeat": 2, "key": "x", "category": "rhythm" },
+    { "id": "c32", "file": "audio/chopped/random-noises.mp3",                "label": "random noises",              "type": "oneshot", "repeat": 2, "key": "c", "category": "rhythm" },
+    { "id": "c33", "file": "audio/chopped/verbal-ticks.mp3",                 "label": "verbal ticks",               "type": "oneshot", "repeat": 3, "key": "v", "category": "rhythm" },
+    { "id": "c34", "file": "audio/chopped/repeating-everything.mp3",         "label": "repeating everything",       "type": "oneshot", "repeat": 2, "key": "b", "category": "rhythm" },
+    { "id": "c35", "file": "audio/chopped/everything-is-variable.mp3",       "label": "everything is variable",     "type": "oneshot", "repeat": 1, "key": "n", "category": "rhythm" },
+    { "id": "c36", "file": "audio/chopped/slow-or-fast.mp3",                 "label": "slow or fast",               "type": "oneshot", "repeat": 2, "key": "m", "category": "rhythm" }
+  ]
+}

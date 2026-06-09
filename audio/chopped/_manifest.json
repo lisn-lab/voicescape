@@ -1,0 +1,578 @@
+[
+  {
+    "slug": "conversations-with-people",
+    "phrase": "conversations with people",
+    "source": "A1.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.5,
+    "output_duration_s": 1.75,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "constantly-thinking",
+    "phrase": "constantly thinking",
+    "source": "A4.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.58,
+    "output_duration_s": 1.83,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "visually-breaking-things-down",
+    "phrase": "visually breaking things down",
+    "source": "A11.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.7,
+    "output_duration_s": 1.95,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "thoughts",
+    "phrase": "thoughts",
+    "source": "A16.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.02,
+    "output_duration_s": 1.27,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "synapses-function",
+    "phrase": "synapses function",
+    "source": "A19.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 2.92,
+    "output_duration_s": 3.17,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "a-radio-dialogue",
+    "phrase": "a radio dialogue",
+    "source": "A25.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.44,
+    "output_duration_s": 1.69,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "imagining-what-people-would-say",
+    "phrase": "imagining what people would say",
+    "source": "A2.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.72,
+    "output_duration_s": 1.97,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "in-their-voice",
+    "phrase": "in their voice",
+    "source": "A2.mp3",
+    "source_start_s": 1.72,
+    "source_end_s": 2.3,
+    "output_duration_s": 0.87,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "break-down-my-routines",
+    "phrase": "break down my routines",
+    "source": "A3.mp3",
+    "source_start_s": 0.34,
+    "source_end_s": 1.94,
+    "output_duration_s": 1.89,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "activities-and-journeys",
+    "phrase": "activities and journeys",
+    "source": "A3.mp3",
+    "source_start_s": 3.54,
+    "source_end_s": 4.94,
+    "output_duration_s": 1.69,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "predicting-conversations",
+    "phrase": "predicting conversations",
+    "source": "A5.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.92,
+    "output_duration_s": 2.17,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "outcomes-of-activities",
+    "phrase": "outcomes of activities",
+    "source": "A5.mp3",
+    "source_start_s": 3.36,
+    "source_end_s": 4.72,
+    "output_duration_s": 1.65,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "i-worry",
+    "phrase": "i worry",
+    "source": "A6.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 0.4,
+    "output_duration_s": 0.65,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "headphones-music",
+    "phrase": "headphones music",
+    "source": "A7.mp3",
+    "source_start_s": 0.4,
+    "source_end_s": 1.68,
+    "output_duration_s": 1.57,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "stimulate-thinking",
+    "phrase": "stimulate thinking",
+    "source": "A7.mp3",
+    "source_start_s": 2.82,
+    "source_end_s": 3.84,
+    "output_duration_s": 1.31,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "visually-representing",
+    "phrase": "visually representing",
+    "source": "A8.mp3",
+    "source_start_s": 2.16,
+    "source_end_s": 3.24,
+    "output_duration_s": 1.37,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "putting-ideas-together",
+    "phrase": "putting ideas together",
+    "source": "A9.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.56,
+    "output_duration_s": 1.81,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "features-knowledge",
+    "phrase": "features knowledge",
+    "source": "A9.mp3",
+    "source_start_s": 2.04,
+    "source_end_s": 3.5,
+    "output_duration_s": 1.75,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "break-down-thoughts-in-my-head",
+    "phrase": "break down thoughts in my head",
+    "source": "A10.mp3",
+    "source_start_s": 2.92,
+    "source_end_s": 4.42,
+    "output_duration_s": 1.79,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "different-purposes",
+    "phrase": "different purposes",
+    "source": "A10.mp3",
+    "source_start_s": 4.96,
+    "source_end_s": 5.84,
+    "output_duration_s": 1.17,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "different-processes",
+    "phrase": "different processes",
+    "source": "A10.mp3",
+    "source_start_s": 6.36,
+    "source_end_s": 7.18,
+    "output_duration_s": 1.11,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "everything-is-variable",
+    "phrase": "everything is variable",
+    "source": "A12.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.62,
+    "output_duration_s": 1.87,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "slow-or-fast",
+    "phrase": "slow or fast",
+    "source": "A12.mp3",
+    "source_start_s": 2.62,
+    "source_end_s": 3.54,
+    "output_duration_s": 1.21,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "subconscious-phrases",
+    "phrase": "subconscious phrases",
+    "source": "A13.mp3",
+    "source_start_s": 0.86,
+    "source_end_s": 2.08,
+    "output_duration_s": 1.51,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "im-tired",
+    "phrase": "i'm tired",
+    "source": "A13.mp3",
+    "source_start_s": 2.3,
+    "source_end_s": 3.0,
+    "output_duration_s": 0.99,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "i-dont-realise-it",
+    "phrase": "i don't realise it",
+    "source": "A13.mp3",
+    "source_start_s": 3.82,
+    "source_end_s": 4.9,
+    "output_duration_s": 1.37,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "when-frustrated",
+    "phrase": "when frustrated",
+    "source": "A14.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.36,
+    "output_duration_s": 1.61,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "vent-an-inner-monologue",
+    "phrase": "vent an inner monologue",
+    "source": "A14.mp3",
+    "source_start_s": 3.2,
+    "source_end_s": 5.8,
+    "output_duration_s": 2.89,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "optical-delusions",
+    "phrase": "optical delusions",
+    "source": "A17.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.2,
+    "output_duration_s": 1.45,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "other-voices",
+    "phrase": "other voices",
+    "source": "A20.mp3",
+    "source_start_s": 3.3,
+    "source_end_s": 3.88,
+    "output_duration_s": 0.87,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "pretend-to-hear-to-speak",
+    "phrase": "pretend to hear to speak",
+    "source": "A20.mp3",
+    "source_start_s": 4.86,
+    "source_end_s": 6.94,
+    "output_duration_s": 2.37,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "repeating-everything",
+    "phrase": "repeating everything",
+    "source": "A22.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.22,
+    "output_duration_s": 1.47,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "as-if-they-say-it-to-you",
+    "phrase": "as if they say it to you",
+    "source": "A22.mp3",
+    "source_start_s": 1.94,
+    "source_end_s": 3.26,
+    "output_duration_s": 1.61,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "random-noises",
+    "phrase": "random noises",
+    "source": "A23.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.16,
+    "output_duration_s": 1.41,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "verbal-ticks",
+    "phrase": "verbal ticks",
+    "source": "A23.mp3",
+    "source_start_s": 1.5,
+    "source_end_s": 2.2,
+    "output_duration_s": 0.99,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "spontaneous-thinking",
+    "phrase": "spontaneous thinking",
+    "source": "A24.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 1.94,
+    "output_duration_s": 2.19,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "like-bubblegum",
+    "phrase": "like bubblegum",
+    "source": "A24.mp3",
+    "source_start_s": 2.48,
+    "source_end_s": 5.02,
+    "output_duration_s": 2.83,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "mini-me",
+    "phrase": "mini me",
+    "source": "Uni 1.mp3",
+    "source_start_s": 1.22,
+    "source_end_s": 1.76,
+    "output_duration_s": 0.83,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "talk-it-through",
+    "phrase": "talk it through",
+    "source": "Uni 1.mp3",
+    "source_start_s": 4.44,
+    "source_end_s": 5.32,
+    "output_duration_s": 1.17,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "in-my-subconscious",
+    "phrase": "in my subconscious",
+    "source": "Uni 1.mp3",
+    "source_start_s": 7.26,
+    "source_end_s": 7.94,
+    "output_duration_s": 0.97,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "my-brain-is-blank",
+    "phrase": "my brain is blank",
+    "source": "Uni 2.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 0.98,
+    "output_duration_s": 1.23,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "an-active-experience",
+    "phrase": "an active experience",
+    "source": "Uni 3.mp3",
+    "source_start_s": 0.68,
+    "source_end_s": 1.88,
+    "output_duration_s": 1.49,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "actively-plan",
+    "phrase": "actively plan",
+    "source": "Uni 4.mp3",
+    "source_start_s": 0.46,
+    "source_end_s": 1.24,
+    "output_duration_s": 1.07,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "fully-engaged",
+    "phrase": "fully engaged",
+    "source": "Uni 4.mp3",
+    "source_start_s": 4.14,
+    "source_end_s": 4.64,
+    "output_duration_s": 0.79,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "static",
+    "phrase": "static",
+    "source": "Uni 5.mp3",
+    "source_start_s": 0.0,
+    "source_end_s": 0.56,
+    "output_duration_s": 0.81,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "sentences-and-ideas",
+    "phrase": "sentences and ideas",
+    "source": "Uni 5.mp3",
+    "source_start_s": 0.94,
+    "source_end_s": 2.08,
+    "output_duration_s": 1.43,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "around-the-noise",
+    "phrase": "around the noise",
+    "source": "Uni 5.mp3",
+    "source_start_s": 2.66,
+    "source_end_s": 3.46,
+    "output_duration_s": 1.09,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "the-fourth-wall",
+    "phrase": "the fourth wall",
+    "source": "Uni 6.mp3",
+    "source_start_s": 2.4,
+    "source_end_s": 3.28,
+    "output_duration_s": 1.17,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "i-dont-really-know",
+    "phrase": "i don't really know",
+    "source": "Uni 6.mp3",
+    "source_start_s": 5.1,
+    "source_end_s": 5.86,
+    "output_duration_s": 1.05,
+    "alignment_confidence": 0.75
+  },
+  {
+    "slug": "loud-and-messy",
+    "phrase": "loud and messy",
+    "source": "Uni 7.mp3",
+    "source_start_s": 1.7,
+    "source_end_s": 3.2,
+    "output_duration_s": 1.79,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "everythings-everywhere",
+    "phrase": "everything's everywhere",
+    "source": "Uni 7.mp3",
+    "source_start_s": 6.22,
+    "source_end_s": 7.86,
+    "output_duration_s": 1.93,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "background-music",
+    "phrase": "background music",
+    "source": "Uni 8.mp3",
+    "source_start_s": 3.76,
+    "source_end_s": 4.62,
+    "output_duration_s": 1.15,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "going-on-inside-my-head",
+    "phrase": "going on inside my head",
+    "source": "Uni 8.mp3",
+    "source_start_s": 10.56,
+    "source_end_s": 11.7,
+    "output_duration_s": 1.43,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "scenes-of-characters",
+    "phrase": "scenes of characters",
+    "source": "Uni 9.mp3",
+    "source_start_s": 1.26,
+    "source_end_s": 2.2,
+    "output_duration_s": 1.23,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "very-loud-and-clear",
+    "phrase": "very loud and clear",
+    "source": "Uni 10.mp3",
+    "source_start_s": 1.08,
+    "source_end_s": 2.14,
+    "output_duration_s": 1.35,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "visualise-scenes",
+    "phrase": "visualise scenes",
+    "source": "Uni 10.mp3",
+    "source_start_s": 4.4,
+    "source_end_s": 5.34,
+    "output_duration_s": 1.23,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "picture-faces",
+    "phrase": "picture faces",
+    "source": "Uni 10.mp3",
+    "source_start_s": 7.9,
+    "source_end_s": 8.52,
+    "output_duration_s": 0.91,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "two-levels",
+    "phrase": "two levels",
+    "source": "Uni 11.mp3",
+    "source_start_s": 2.78,
+    "source_end_s": 3.5,
+    "output_duration_s": 1.01,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "letters-and-numbers-as-colours",
+    "phrase": "letters and numbers as colours",
+    "source": "Uni 11.mp3",
+    "source_start_s": 19.58,
+    "source_end_s": 20.6,
+    "output_duration_s": 1.31,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "more-blurry",
+    "phrase": "more blurry",
+    "source": "Uni 11.mp3",
+    "source_start_s": 33.02,
+    "source_end_s": 33.54,
+    "output_duration_s": 0.81,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "visualising-a-film",
+    "phrase": "visualising a film",
+    "source": "Uni 12.mp3",
+    "source_start_s": 1.88,
+    "source_end_s": 2.84,
+    "output_duration_s": 1.25,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "playing-out-in-my-head",
+    "phrase": "playing out in my head",
+    "source": "Uni 12.mp3",
+    "source_start_s": 2.84,
+    "source_end_s": 4.1,
+    "output_duration_s": 1.55,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "i-think-in-paths",
+    "phrase": "i think in paths",
+    "source": "Uni 13.mp3",
+    "source_start_s": 1.02,
+    "source_end_s": 1.84,
+    "output_duration_s": 1.11,
+    "alignment_confidence": 1.0
+  },
+  {
+    "slug": "the-task-at-hand",
+    "phrase": "the task at hand",
+    "source": "Uni 13.mp3",
+    "source_start_s": 4.88,
+    "source_end_s": 5.76,
+    "output_duration_s": 1.17,
+    "alignment_confidence": 1.0
+  }
+]

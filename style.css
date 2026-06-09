@@ -1,0 +1,759 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --text: #e0e0e0;
+  --accent: #e94560;
+  --loop-idle: #f59e0b;
+  --loop-active: #fbbf24;
+  --oneshot-idle: #06b6d4;
+  --oneshot-flash: #22d3ee;
+  --user-clip: #10b981;
+  --empty: #374151;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#top-bar h1 { font-size: 1.4rem; font-weight: 600; }
+
+#transport-controls { display: flex; align-items: center; gap: 1rem; }
+
+#pad-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 0.5rem;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pad {
+  width: 80px;
+  height: 70px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.05s, box-shadow 0.1s;
+  position: relative;
+  user-select: none;
+}
+
+.pad .key-letter {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 0.65rem;
+  opacity: 0.6;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pad .clip-label {
+  font-size: 0.7rem;
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 4px;
+}
+
+.pad[data-type="loop"] { background: var(--loop-idle); color: #1a1a2e; }
+.pad[data-type="oneshot"] { background: var(--oneshot-idle); color: #1a1a2e; }
+.pad[data-type="user"] { background: var(--user-clip); color: #1a1a2e; }
+.pad.empty { background: var(--empty); color: #6b7280; }
+
+.pad.playing { transform: scale(0.95); box-shadow: 0 0 20px currentColor; }
+.pad.looping {
+  animation: pulse 0.5s ease-in-out infinite alternate;
+  border-color: rgba(255,255,255,0.5);
+}
+
+@keyframes pulse {
+  from { box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
+  to   { box-shadow: 0 0 24px rgba(251, 191, 36, 0.8); }
+}
+
+.pad.flash {
+  animation: flash 0.15s ease-out;
+}
+
+.pad-dots {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.pad-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(26, 26, 46, 0.7);
+}
+
+/* Delete (×) button on voice pads. Hidden until hover on desktop; always
+   shown on touch devices (no hover to reveal it). */
+.pad-delete {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50%;
+  background: rgba(26, 26, 46, 0.55);
+  color: #fff;
+  cursor: pointer;
+}
+.pad[data-type="user"]:hover .pad-delete { display: flex; }
+.pad-delete:hover { background: #ef4444; }
+@media (hover: none) {
+  .pad[data-type="user"] .pad-delete { display: flex; }
+}
+
+/* Rename (✎) button on voice pads – sits just left of the × delete, same
+   reveal rules: hover on desktop, always shown on touch. */
+.pad-rename {
+  position: absolute;
+  top: 2px;
+  right: 21px;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 0.7rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(26, 26, 46, 0.55);
+  color: #fff;
+  cursor: pointer;
+}
+.pad[data-type="user"]:hover .pad-rename { display: flex; }
+.pad-rename:hover { background: #3b82f6; }
+@media (hover: none) {
+  .pad[data-type="user"] .pad-rename { display: flex; }
+}
+
+/* Inline text field that replaces the .clip-label while renaming. */
+.clip-rename-input {
+  width: 72px;
+  font-size: 0.7rem;
+  text-align: center;
+  border: 1px solid rgba(26, 26, 46, 0.5);
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a2e;
+  padding: 1px 2px;
+}
+
+@keyframes flash {
+  0% { filter: brightness(1.8); transform: scale(0.92); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+
+#bottom-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover { filter: brightness(1.15); }
+button:active { transform: scale(0.97); }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.overlay.hidden { display: none; }
+
+.overlay-content {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.overlay-content input[type="text"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Mobile grid – works at any width (toggle button can activate on desktop) */
+.mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.mobile-grid .pad {
+  width: 100%;
+  height: 80px;
+}
+
+.mobile-grid .pad .key-letter { display: none; }
+
+/* REC button */
+#rec-btn {
+  background: #666;
+  color: #aaa;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+#rec-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* "New jam" – only visible when there's an existing performance to discard.
+   Sits between REC and the BPM display in the top bar. */
+#new-jam-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+}
+#new-jam-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+#new-jam-btn.hidden { display: none; }
+
+#rec-btn.rec-active {
+  background: #dc2626;
+  color: white;
+  animation: rec-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes rec-pulse {
+  from { box-shadow: 0 0 4px rgba(220, 38, 38, 0.4); }
+  to   { box-shadow: 0 0 16px rgba(220, 38, 38, 0.8); }
+}
+
+/* Voice-record button while capturing the mic – inline indicator, non-blocking */
+#record-voice-btn.voice-recording {
+  background: #dc2626;
+  color: white;
+  animation: rec-pulse 1s ease-in-out infinite alternate;
+  min-width: 130px;
+  font-variant-numeric: tabular-nums;
+}
+#record-voice-btn.voice-recording::before {
+  content: "●";
+  margin-right: 0.5em;
+  color: #fff;
+}
+
+/* Toast – brief feedback ("Saved to [;]") shown bottom-center */
+#voicescape-toast {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(20, 20, 20, 0.92);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+#voicescape-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+#voicescape-toast.hidden { display: none; }
+
+/* Pad highlight after a fresh voice-clip is added – pulses briefly */
+.pad.just-added {
+  animation: just-added-pulse 1.2s ease-out;
+}
+@keyframes just-added-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.8); transform: scale(1.0); }
+  30%  { box-shadow: 0 0 0 14px rgba(34, 197, 94, 0); transform: scale(1.06); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); transform: scale(1.0); }
+}
+
+/* Visualizer canvas */
+#visualizer {
+  width: 100%;
+  height: 80px;
+  display: block;
+  background: transparent;
+}
+
+@media (max-width: 1023px) {
+  #visualizer { height: 30px; }
+}
+
+/* Background seek bar */
+#seek-bar {
+  position: relative;
+  height: 14px;
+  margin: 6px auto;
+  max-width: 820px;
+  width: calc(100% - 2rem);
+  background: rgba(255,255,255,0.12);
+  border-radius: 7px;
+  cursor: pointer;
+  touch-action: none;
+}
+#seek-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: rgba(255,255,255,0.35);
+  border-radius: 7px;
+  pointer-events: none;
+}
+#seek-handle {
+  position: absolute;
+  top: 50%; left: 0;
+  width: 14px; height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: none;
+}
+
+/* Drag & drop */
+.pad.dragging {
+  opacity: 0.9;
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  border-radius: 8px;
+}
+
+.pad.drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed rgba(255,255,255,0.3);
+  background: transparent !important;
+}
+
+#help-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#help-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 1023px) {
+  #help-btn { width: 44px; height: 44px; font-size: 1.1rem; }
+}
+
+.welcome-card {
+  background: var(--surface);
+  padding: 2.5rem 2.5rem 2rem;
+  border-radius: 14px;
+  max-width: 520px;
+  width: 90vw;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.welcome-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.welcome-tagline {
+  font-size: 1rem;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.welcome-body {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0.5rem 0;
+  opacity: 0.9;
+}
+
+.welcome-privacy {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.welcome-primary {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.welcome-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.welcome-secondary:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+#tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+#tour-overlay.hidden { display: none; }
+
+.spotlight {
+  position: absolute;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  background: transparent;
+  pointer-events: none;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+  box-sizing: border-box;
+}
+
+.tour-tooltip {
+  position: absolute;
+  background: var(--surface);
+  color: var(--text);
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  max-width: 320px;
+  width: max-content;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 91;
+}
+
+.tour-text {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.tour-progress {
+  display: flex;
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.tour-progress .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+}
+
+.tour-progress .dot.active {
+  background: var(--accent);
+}
+
+.tour-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tour-back,
+.tour-next,
+.tour-skip {
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+}
+
+.tour-back,
+.tour-skip {
+  background: transparent;
+  color: var(--text);
+  opacity: 0.7;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.tour-next {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.tour-back:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.stats-panel {
+  background: #f4f4f4;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 0 0 16px 0;
+  font-size: 14px;
+}
+.stats-empty {
+  font-style: italic;
+  color: #666;
+}
+.stats-headline {
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+.stats-subhead {
+  margin: 8px 0 4px 0;
+  color: #555;
+}
+.stats-bars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.stats-bars li {
+  display: grid;
+  grid-template-columns: 130px 1fr 30px;
+  gap: 8px;
+  align-items: center;
+  padding: 2px 0;
+}
+.stats-bar {
+  background: #ddd;
+  height: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.stats-bar-fill {
+  display: block;
+  height: 100%;
+  background: #4a90e2;
+}
+.stats-country-count {
+  text-align: right;
+  color: #555;
+}
+.stats-modal {
+  margin: 8px 0 0 0;
+  color: #555;
+}
+/* Fluid share-on-Stop card */
+.share-card-inner {
+  background: var(--surface);
+  padding: 1.5rem 1.75rem;
+  border-radius: 12px;
+  max-width: 420px;
+  width: calc(100% - 2rem);
+  /* The first-share card (demographics + thought) can be tall; cap to the
+     viewport and scroll so the buttons are always reachable on small screens. */
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  text-align: left;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.share-card-inner h2 { margin: 0 0 0.25rem; font-size: 1.3rem; }
+.share-card-sub { margin: 0 0 0.9rem; opacity: 0.85; font-size: 0.92rem; }
+
+/* Optional MP3 download – appears when the render is ready; click to save. */
+.share-download {
+  display: inline-block;
+  margin: 0 0 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.share-download:hover { background: rgba(255, 255, 255, 0.12); }
+.share-download.hidden { display: none; }
+.share-card-inner textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+.share-actions button.primary {
+  background: var(--user-clip);
+  color: #1a1a2e;
+  font-weight: 700;
+}
+.share-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.share-actions button {
+  padding: 8px 16px;
+}
+.share-actions button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.share-status {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555;
+  min-height: 1.4em;
+}
+.share-status.error { color: #c44; }
+
+/* Folded demographics block inside the share card (first share only) */
+#share-demographics {
+  text-align: left;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.share-demo-intro { margin: 0 0 0.5rem; opacity: 0.7; font-size: 0.82rem; }
+#share-demographics label,
+.share-thought-label { display: block; text-align: left; margin: 0.55rem 0; font-size: 0.88rem; }
+#share-demographics select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.3rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: inherit;
+  font: inherit;
+}
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.toast.show { opacity: 1; }
+.toast.error { background: #c44; }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voicescape</title>
+  <link rel="stylesheet" href="style.css?v=18">
+</head>
+<body>
+  <header id="top-bar">
+    <h1>Voicescape</h1>
+    <div id="transport-controls">
+      <button id="play-btn">Play</button>
+      <button id="rec-btn" class="hidden" disabled>REC</button>
+      <button id="new-jam-btn" class="hidden" title="Discard the current performance and start over">New jam</button>
+      <span id="bpm-display"></span>
+      <button id="mode-toggle-btn" class="hidden">Switch to Touch Grid</button>
+      <button id="help-btn" title="How does this work?" aria-label="Open tutorial">?</button>
+    </div>
+  </header>
+
+  <canvas id="visualizer"></canvas>
+
+  <div id="seek-bar" title="Drag to choose where the background starts">
+    <div id="seek-fill"></div>
+    <div id="seek-handle"></div>
+  </div>
+
+  <main id="pad-container"></main>
+
+  <footer id="bottom-bar">
+    <button id="record-voice-btn">Record your own voice</button>
+  </footer>
+
+  <div id="voicescape-toast" class="hidden"></div>
+
+<div id="welcome-overlay" class="overlay hidden">
+    <div class="welcome-card">
+      <h2 class="welcome-title">Voicescape</h2>
+      <p class="welcome-tagline"><em>What inner voices sound like – out loud.</em></p>
+      <p class="welcome-body">
+        The pads play real recordings of young people thinking out loud – the kind
+        of running self-talk that usually stays inside. Press the pads to layer
+        them. Record your own.
+      </p>
+      <p class="welcome-privacy">
+        Everything stays on your device unless you choose to share with the LISN Lab when you finish – and even then, only anonymously.
+      </p>
+      <div class="welcome-actions">
+        <button id="welcome-tour-btn" class="welcome-primary">
+          Take the tour · 6 quick steps
+        </button>
+        <button id="welcome-skip-btn" class="welcome-secondary">
+          Skip – just compose
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tour-overlay" class="hidden">
+    <div class="spotlight" id="spotlight"></div>
+    <div class="tour-tooltip" id="tour-tooltip">
+      <p class="tour-text" id="tour-text"></p>
+      <div class="tour-progress" id="tour-progress"></div>
+      <div class="tour-actions">
+        <button class="tour-back" id="tour-back-btn">← Back</button>
+        <button class="tour-next" id="tour-next-btn">Next →</button>
+        <button class="tour-skip" id="tour-skip-btn">Skip all</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="share-card" class="overlay hidden">
+    <div class="share-card-inner">
+      <h2>Want to share your thoughts?</h2>
+      <p class="share-card-sub">Preparing your MP3…</p>
+      <a id="share-download" class="share-download hidden" download>⬇ Download your MP3</a>
+
+      <!-- Shown only on the visitor's first share, then cached and hidden. -->
+      <div id="share-demographics" class="hidden">
+        <p class="share-demo-intro">A little about you (optional) – we'll only ask once.</p>
+        <label>Age range:
+          <select name="ageBand">
+            <option value="">Choose…</option>
+            <option value="under-18">Under 18</option>
+            <option value="18-24">18–24</option>
+            <option value="25-34">25–34</option>
+            <option value="35-44">35–44</option>
+            <option value="45-54">45–54</option>
+            <option value="55-64">55–64</option>
+            <option value="65-plus">65+</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+          </select>
+        </label>
+        <label>Gender:
+          <select name="gender">
+            <option value="">Choose…</option>
+            <option value="woman">Woman</option>
+            <option value="man">Man</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+          </select>
+        </label>
+        <label>Do you talk to yourself in your head?
+          <select name="selfTalkFrequency">
+            <option value="">Choose…</option>
+            <option value="almost-never">Almost never</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="often">Often</option>
+            <option value="almost-constantly">Almost constantly</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+          </select>
+        </label>
+        <label>Anything you'd like to share?
+          <textarea name="about" rows="2" placeholder="Why you came today, or how you'd like to be known…"></textarea>
+        </label>
+      </div>
+
+      <label class="share-thought-label">Your thoughts
+        <textarea name="feedback" rows="3"
+          placeholder="What's your inner speech experience like, generally speaking?"></textarea>
+      </label>
+      <div class="share-actions">
+        <button type="button" id="share-not-now-btn">Not now</button>
+        <button type="button" id="share-submit-btn" class="primary">Share anonymously</button>
+      </div>
+      <div id="share-status" class="share-status"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tone@latest/build/Tone.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/dist/lamejs.iife.js"></script>
+  <script type="module" src="js/app.js?v=20"></script>
+</body>
+</html>
