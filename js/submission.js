@@ -7,6 +7,11 @@ export const DEMOGRAPHICS_KEY = 'voicescape:demographics';
 // under it, so a long answer can never make the insert fail.
 export const FREE_TEXT_CAP = 1500;
 
+// Tight cap on the location text — it holds a place name, and extra_fields has a
+// 4KB check constraint already carrying two ~1500-char free-text fields, so a
+// long value here could push the insert over the limit.
+export const LOCATION_TEXT_CAP = 120;
+
 // Map a parsed localStorage demographics object (or null) to table-valid values.
 // Unset age/gender become 'prefer-not-to-say' (the NOT NULL columns accept it);
 // unset self-talk frequency becomes null (the column is nullable). The gender
@@ -28,7 +33,7 @@ export function resolveDemographics(stored) {
 // (about from onboarding, feedback from the share card) are trimmed, capped, and
 // only added to extra_fields when non-empty.
 export function buildSubmissionRow({
-  submissionId, uid, geo, demographics, feedback,
+  submissionId, uid, geo, demographics, feedback, locationText,
   durationSec, mp3SizeBytes, appVersion, storagePath,
 }) {
   const extra = {};
@@ -36,6 +41,10 @@ export function buildSubmissionRow({
   if (about) extra.about = about;
   const fb = (feedback || '').trim().slice(0, FREE_TEXT_CAP);
   if (fb) extra.feedback = fb;
+  const city = (geo.city || '').trim().slice(0, 100);
+  if (city) extra.geo_city = city;
+  const loc = (locationText || '').trim().slice(0, LOCATION_TEXT_CAP);
+  if (loc) extra.location_text = loc;
   return {
     id: submissionId,
     uid,
