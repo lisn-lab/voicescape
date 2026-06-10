@@ -11,20 +11,30 @@ verification – approximate is fine, fake values don't matter.
 
 ## Decision
 
-Auto-detect location from the visitor's IP, then show it for opt-in confirmation
-on the demographic survey card. Consent model (tick box), not silent capture.
+Auto-detect location from the visitor's IP and show it prefilled in a single
+**editable text field** on the demographic survey card. No tick box – the field
+itself is the control.
 
 The flow on the survey card:
 
 - A GeoIP lookup gives **country + region + city-guess**. Region is the
   first-level subdivision (e.g. England, California, Bavaria) – returned for
   free by any GeoIP service, nothing to curate.
-- The detected location is shown prefilled in a single **editable text field**,
-  e.g. `Lancaster, England, UK`. The participant can correct it, blank it, or
-  leave it. Editable text removes the "wrong guess looks bad" problem without
-  needing a search widget or places database.
-- A tick box, **unticked by default**, opts the location into the contributor
-  map. Default-unticked is required for valid GDPR consent.
+- The detected location prefills a "Where are you from?" text field, e.g.
+  `Lancaster, England, United Kingdom`. The participant can edit it, leave it,
+  or **clear it**. Editable text removes the "wrong guess looks bad" problem
+  without a search widget or places database.
+- **No tick box** (revised 2026-06-10 after seeing the card – the checkbox plus
+  disclosure note read as too much). Leaving the field (edited or not) stores
+  location; clearing it stores none. The visible prefilled field doubles as the
+  disclosure of what was detected and as the opt-out control.
+
+### Card composition (final)
+
+Age, Gender, **Where are you from?**, "Anything you'd like to share?", and (below
+the demographics block) "Your thoughts". The earlier "Do you talk to yourself in
+your head?" question was **removed** to keep the card short – the location field
+took its slot.
 
 ## Data stored
 
@@ -34,14 +44,14 @@ columns; `city` and the edited text go into the existing `extra_fields` JSONB,
 so no DB migration is needed.
 
 - **Raw IP geo** – `country` / `region` columns (existing) plus
-  `extra_fields.geo_city`, stored only when the box is ticked. This drives the
-  map/distribution.
-- **Edited text** – `extra_fields.location_text`, the free-text field as the
-  participant left it. Supplementary, not the source of truth. Messy values
-  ("the moon") are harmless because the map reads the structured fields.
-- **Opt-out** – box unticked: write `country = 'ZZ'`, `region = 'Unknown'`
-  (the existing geo.js fallback, so the columns stay non-null), and store no
-  `geo_city` / `location_text`.
+  `extra_fields.geo_city`, stored when the location field is left non-empty.
+  This drives the map/distribution.
+- **Edited text** – `extra_fields.location_text`, the field as the participant
+  left it. Supplementary, not the source of truth. Messy values ("the moon")
+  are harmless because the map reads the structured fields.
+- **Opt-out** – the field cleared to empty: write `country = 'ZZ'`,
+  `region = 'Unknown'` (the existing geo.js fallback, so the columns stay
+  non-null), and store no `geo_city` / `location_text`.
 
 ## Rejected alternatives
 
@@ -57,11 +67,16 @@ so no DB migration is needed.
 ## Requirement – GDPR
 
 An IP address and location derived from it are personal data under UK GDPR.
-Lawful basis here is **consent**, given by the tick box. The box must be
-unticked by default – a pre-ticked box is not valid consent. Wording near it,
-e.g.:
+The model here is **disclosed self-report**, not an explicit tick-box consent:
+the participant sees the detected location in a labelled, editable field and can
+clear it to store nothing. Lawful basis is legitimate interest, with the visible
+field providing transparency and an opt-out.
 
-> "OK to include your approximate location on our contributor map?"
+This is a lighter posture than the unticked-checkbox consent first specced
+(dropped 2026-06-10 as too heavy for the card). It is defensible for coarse,
+non-sensitive, aggregate-use location. If a stricter explicit-consent basis is
+ever wanted, restore the tick box – that is the only thing that gave active
+opt-in.
 
 ## Implementation notes
 
