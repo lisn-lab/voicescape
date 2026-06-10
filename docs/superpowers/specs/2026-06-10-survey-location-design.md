@@ -29,13 +29,19 @@ The flow on the survey card:
 ## Data stored
 
 Keep the machine guess and the human edit separate so edits don't corrupt the
-distribution:
+distribution. The `submissions` table already has `country` and `region`
+columns; `city` and the edited text go into the existing `extra_fields` JSONB,
+so no DB migration is needed.
 
-- **Raw IP geo** – structured `country` / `region` / `city` from the lookup,
-  stored whenever the box is ticked. This drives the map/distribution.
-- **Edited text** – the free-text field as the participant left it, stored as a
-  separate field. Supplementary, not the source of truth. Messy values
+- **Raw IP geo** – `country` / `region` columns (existing) plus
+  `extra_fields.geo_city`, stored only when the box is ticked. This drives the
+  map/distribution.
+- **Edited text** – `extra_fields.location_text`, the free-text field as the
+  participant left it. Supplementary, not the source of truth. Messy values
   ("the moon") are harmless because the map reads the structured fields.
+- **Opt-out** – box unticked: write `country = 'ZZ'`, `region = 'Unknown'`
+  (the existing geo.js fallback, so the columns stay non-null), and store no
+  `geo_city` / `location_text`.
 
 ## Rejected alternatives
 
@@ -44,7 +50,9 @@ distribution:
   (e.g. Google Places). Too much for an illustrative field. Bo's call.
 - **Disclosure-only / silent capture (legitimate interest)** – considered;
   rejected in favour of the tick box for transparency. Trade-off: opt-in leaves
-  coverage gaps from people who skip the tick.
+  coverage gaps from people who skip the tick. Note this is the app's *current*
+  behaviour: `geo.js` already captures country+region on every share with no
+  tick and no disclosure. This change replaces that with consent.
 
 ## Requirement – GDPR
 
@@ -57,14 +65,19 @@ e.g.:
 
 ## Implementation notes
 
-- Demographics today are device-only and travel with a share
-  (`js/demographics.js`, `js/contribute.js`).
-- The geo lookup must happen **before the survey card renders** so the field can
-  be prefilled – not silently on receipt. The browser can't read its own public
-  IP + geo reliably, and a client-side geo API would expose a key, so the lookup
-  is a small **server-side** endpoint the client calls when the card opens; the
-  server returns `country` / `region` / `city` for the requesting IP.
-- On share, the payload carries: raw IP geo (if ticked), tick state, and edited
-  text. Add these to the share payload, not to `saveDemographics`.
-- Pick a GeoIP source (self-hosted MaxMind GeoLite2 DB, or a hosted lookup on the
-  server). No per-request cost with a bundled DB.
+Architecture as built (verified against the code, not assumed):
+
+- The lookup is **already client-side**. `js/geo.js` calls `ipapi.co/json/` from
+  the browser (no API key, free tier) and returns `{country, region}`. The same
+  ipapi response carries `city`, so adding the city guess is one extra field – 
+  no server, no key, no migration.
+- There is **no custom backend**. `js/contribute.js` inserts the submission row
+  straight into Supabase Postgres (`js/supabase-config.js`), so the geo must be
+  resolved in the browser before the insert – which is what already happens.
+- **Where it lives:** fold the location confirm (editable field + tick) into the
+  existing first-share demographics block (`#share-demographics` in
+  `index.html`), so it's asked once and cached in localStorage like the other
+  demographics. `geo.js` prefills the field; later shares reuse the cached value.
+- **Pure functions stay testable:** `geo.js` and `submission.js` import nothing
+  from the bundler, so cover the city parse and the row-building (ticked vs
+  opted-out) with `node --test`. UI wiring is verified manually in the browser.
