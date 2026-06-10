@@ -4,9 +4,20 @@ import { buildSubmissionRow, LOCATION_TEXT_CAP } from '../js/submission.js';
 
 const base = {
   submissionId: 'sid', uid: 'uid',
-  demographics: { ageBand: '25-34', gender: 'woman', genderSelfDescribe: null, selfTalkFrequency: 'often', about: '' },
-  feedback: '', durationSec: 12, mp3SizeBytes: 1000, appVersion: 'v', storagePath: 'p',
+  demographics: { ageBand: '25-34', gender: 'woman', genderSelfDescribe: null, selfTalkFrequency: null },
+  about: '', feedback: '', durationSec: 12, mp3SizeBytes: 1000, appVersion: 'v', storagePath: 'p',
 };
+
+test('about and feedback land in extra_fields per share', () => {
+  const row = buildSubmissionRow({
+    ...base,
+    geo: { country: 'GB', region: 'England', city: 'Lancaster' },
+    about: 'Came after a hard day; calmer now.',
+    feedback: 'I narrate constantly.',
+  });
+  assert.equal(row.extra_fields.about, 'Came after a hard day; calmer now.');
+  assert.equal(row.extra_fields.feedback, 'I narrate constantly.');
+});
 
 test('ticked: city and location_text land in extra_fields', () => {
   const row = buildSubmissionRow({

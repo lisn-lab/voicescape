@@ -16,8 +16,8 @@ export const LOCATION_TEXT_CAP = 120;
 // Unset age/gender become 'prefer-not-to-say' (the NOT NULL columns accept it);
 // unset self-talk frequency becomes null (the column is nullable). The gender
 // "self-describe" category was removed; gender_self_describe is always null now.
-// `about` is the optional first-visit free-text ("why you came / how you'd like
-// to be known"), carried through to extra_fields.
+// These are the cached, ask-once fields; the free-text answers (about, feedback)
+// are asked every share and passed separately to buildSubmissionRow.
 export function resolveDemographics(stored) {
   const d = stored || {};
   return {
@@ -25,20 +25,20 @@ export function resolveDemographics(stored) {
     gender: d.gender || 'prefer-not-to-say',
     genderSelfDescribe: null,
     selfTalkFrequency: d.selfTalkFrequency || null,
-    about: d.about || '',
   };
 }
 
 // Build the row inserted into public.submissions. The two free-text fields
-// (about from onboarding, feedback from the share card) are trimmed, capped, and
-// only added to extra_fields when non-empty.
+// (about = "anything you'd like to share", feedback = "your inner experience")
+// are asked on the share card every time, trimmed, capped, and only added to
+// extra_fields when non-empty.
 export function buildSubmissionRow({
-  submissionId, uid, geo, demographics, feedback, locationText,
+  submissionId, uid, geo, demographics, about, feedback, locationText,
   durationSec, mp3SizeBytes, appVersion, storagePath,
 }) {
   const extra = {};
-  const about = (demographics.about || '').trim().slice(0, FREE_TEXT_CAP);
-  if (about) extra.about = about;
+  const ab = (about || '').trim().slice(0, FREE_TEXT_CAP);
+  if (ab) extra.about = ab;
   const fb = (feedback || '').trim().slice(0, FREE_TEXT_CAP);
   if (fb) extra.feedback = fb;
   const city = (geo.city || '').trim().slice(0, 100);

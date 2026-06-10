@@ -43,6 +43,7 @@ function $(id) { return document.getElementById(id); }
 export async function share(resultPromise) {
   const card = $('share-card');
   const demoBlock = $('share-demographics');
+  const aboutBox = card.querySelector('textarea[name="about"]');
   const textarea = card.querySelector('textarea[name="feedback"]');
   const sub = card.querySelector('.share-card-sub');
   const submitBtn = $('share-submit-btn');
@@ -62,6 +63,7 @@ export async function share(resultPromise) {
   };
 
   textarea.value = '';
+  if (aboutBox) aboutBox.value = '';
   status.textContent = '';
   status.classList.remove('error');
   submitBtn.disabled = false;
@@ -133,8 +135,9 @@ export async function share(resultPromise) {
         resolve({ ok: false });
         return;
       }
-      // First share: capture + cache the demographics AND the location choice
-      // from this card. Later shares reuse the cached values.
+      // First share: capture + cache the ask-once fields (age, gender, location)
+      // from this card. Later shares reuse the cached values. The free-text
+      // answers (about, feedback) are read fresh below, every share.
       let geo, locationText;
       if (needDemographics && demoBlock) {
         const sel = (n) => demoBlock.querySelector(`[name="${n}"]`);
@@ -147,7 +150,6 @@ export async function share(resultPromise) {
         saveDemographics({
           ageBand: sel('ageBand').value || '',
           gender: sel('gender').value || '',
-          about: sel('about').value || '',
           geo,
           locationText,
         });
@@ -157,7 +159,8 @@ export async function share(resultPromise) {
         locationText = stored.locationText || '';
       }
       const demographics = resolveDemographics(getStoredDemographics());
-      const r = await performSubmission(result.blob, result.durationSec, demographics, textarea.value, geo, locationText, status);
+      const about = aboutBox ? aboutBox.value : '';
+      const r = await performSubmission(result.blob, result.durationSec, demographics, about, textarea.value, geo, locationText, status);
       submitBtn.disabled = false;
       // On success, close. On submission failure, leave the card open so they can
       // retry — the same onclick handler is reused, no leak.
@@ -168,7 +171,7 @@ export async function share(resultPromise) {
   });
 }
 
-async function performSubmission(mp3Blob, durationSec, demographics, feedback, geo, locationText, statusEl) {
+async function performSubmission(mp3Blob, durationSec, demographics, about, feedback, geo, locationText, statusEl) {
   const supabase = getClient();
   statusEl.classList.remove('error');
   statusEl.textContent = 'Sending…';
@@ -185,7 +188,7 @@ async function performSubmission(mp3Blob, durationSec, demographics, feedback, g
   const submissionId = crypto.randomUUID();
   const storagePath = `submissions/${submissionId}.mp3`;
   const row = buildSubmissionRow({
-    submissionId, uid, geo, demographics, feedback, locationText,
+    submissionId, uid, geo, demographics, about, feedback, locationText,
     durationSec, mp3SizeBytes: mp3Blob.size, appVersion: APP_VERSION, storagePath,
   });
 
