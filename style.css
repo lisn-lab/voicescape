@@ -741,20 +741,6 @@ button:active { transform: scale(0.97); }
   color: inherit;
   font: inherit;
 }
-.share-location-consent {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-.share-location-consent input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-}
-.share-location-note {
-  font-size: 0.78rem;
-  opacity: 0.6;
-  margin: 0.25rem 0 0;
-}
 .toast {
   position: fixed;
   bottom: 20px;

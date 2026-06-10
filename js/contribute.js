@@ -102,7 +102,7 @@ export async function share(resultPromise) {
     geoPromise.then((g) => {
       if (seq !== shareSeq || !active) return;
       const input = demoBlock && demoBlock.querySelector('[name="locationText"]');
-      if (input && g) input.value = prefillLocation(g);
+      if (input && g && !input.value) input.value = prefillLocation(g);
     });
   }
 
@@ -138,14 +138,15 @@ export async function share(resultPromise) {
       let geo, locationText;
       if (needDemographics && demoBlock) {
         const sel = (n) => demoBlock.querySelector(`[name="${n}"]`);
-        const consented = sel('locationConsent').checked;
+        // No tick box: the prefilled "Where are you from?" field is the control.
+        // Leaving it (edited or not) opts in; clearing it opts out of all location
+        // storage. The visible field doubles as the disclosure of what we detected.
+        locationText = sel('locationText').value.trim();
         const looked = (await geoPromise) || NO_GEO;
-        geo = consented ? looked : NO_GEO;
-        locationText = consented ? sel('locationText').value : '';
+        geo = locationText ? looked : NO_GEO;
         saveDemographics({
           ageBand: sel('ageBand').value || '',
           gender: sel('gender').value || '',
-          selfTalkFrequency: sel('selfTalkFrequency').value || '',
           about: sel('about').value || '',
           geo,
           locationText,

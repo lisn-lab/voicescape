@@ -101,31 +101,13 @@
             <option value="prefer-not-to-say">Prefer not to say</option>
           </select>
         </label>
-        <label>Do you talk to yourself in your head?
-          <select name="selfTalkFrequency">
-            <option value="">Choose…</option>
-            <option value="almost-never">Almost never</option>
-            <option value="sometimes">Sometimes</option>
-            <option value="often">Often</option>
-            <option value="almost-constantly">Almost constantly</option>
-            <option value="prefer-not-to-say">Prefer not to say</option>
-          </select>
+        <label>Where are you from?
+          <input type="text" name="locationText" autocomplete="off"
+            placeholder="City, region, country">
         </label>
         <label>Anything you'd like to share?
           <textarea name="about" rows="2" placeholder="Why you came today, or how you'd like to be known…"></textarea>
         </label>
-        <label>Where are you based?
-          <input type="text" name="locationText" autocomplete="off"
-            placeholder="City, region, country">
-        </label>
-        <label class="share-location-consent">
-          <input type="checkbox" name="locationConsent">
-          OK to include your approximate location on our contributor map
-        </label>
-        <p class="share-location-note">
-          We detect this from your internet connection. Leave the box unticked
-          and we won't record where you are.
-        </p>
       </div>
 
       <label class="share-thought-label">Your thoughts
