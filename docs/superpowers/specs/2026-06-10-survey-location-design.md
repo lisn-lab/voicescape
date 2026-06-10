@@ -31,10 +31,18 @@ The flow on the survey card:
 
 ### Card composition (final)
 
-Age, Gender, **Where are you from?**, "Anything you'd like to share?", and (below
-the demographics block) "Your thoughts". The earlier "Do you talk to yourself in
-your head?" question was **removed** to keep the card short – the location field
-took its slot.
+Cached, ask-once block (hidden after first share), with a divider beneath it:
+Age, Gender, **Where are you from?**.
+
+Below the divider, asked **every share**: "Anything you'd like to share?"
+(prompt: "What brought you here today, and how did this session feel?") and
+"What is your inner experience like?" (prompt: "Do you talk to yourself in your
+head? What's your inner speech like?").
+
+The old "Do you talk to yourself in your head?" dropdown was removed; that signal
+now comes back as free text in the inner-experience prompt. Both free-text
+answers are read fresh each share – they are no longer cached – so the
+session-feeling question is asked on every visit, not just the first.
 
 ## Data stored
 
