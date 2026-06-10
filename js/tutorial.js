@@ -9,12 +9,12 @@ const STEPS = [
     touch: '<strong>Tap Play first.</strong> The pads only work while the background music is running — no Play, no jam.',
   },
   {
-    target: () => findPadForKey('q'),
+    target: () => findPadByType('loop'),
     desktop: 'Press an <span style="color:#f59e0b;font-weight:600;">orange</span> key — it plays a loop. Press once to start, press again to stop.',
     touch: 'Tap an <span style="color:#f59e0b;font-weight:600;">orange</span> pad — it plays a loop. Tap to start, tap again to stop.',
   },
   {
-    target: () => findPadForKey('w'),
+    target: () => findPadByType('oneshot'),
     desktop: 'Press a <span style="color:#06b6d4;font-weight:600;">blue</span> key — each press fires the clip. The dots show beats per press: 1 dot = 1 beat, 4 dots = 4 beats squeezed into one bar.',
     touch: 'Tap a <span style="color:#06b6d4;font-weight:600;">blue</span> pad — each tap fires the clip. The dots show beats per press: 1 dot = 1 beat, 4 dots = 4 beats squeezed into one bar.',
   },
@@ -49,6 +49,13 @@ const STEPS = [
     touch: 'When you\'re done, tap <strong>Stop</strong>. Your MP3 saves to your device, and you can share your thoughts with us.',
   },
 ];
+
+// Find the first rendered pad of a given playback type ('loop' | 'oneshot').
+// Used instead of hardcoding keys so the orange/blue tour steps always land on a
+// pad that actually matches the copy, even when clips.json reassigns keys.
+function findPadByType(type) {
+  return document.querySelector(`.pad[data-type="${type}"]`) || null;
+}
 
 function findPadForKey(key) {
   const k = key.toLowerCase();

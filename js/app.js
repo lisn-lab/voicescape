@@ -1,11 +1,11 @@
-import { AudioEngine } from './audio.js';
+import { AudioEngine } from './audio.js?v=2';
 import { InputHandler } from './input.js';
 import { UIRenderer } from './ui.js';
 import { SessionRecorder } from './session.js';
 import { BlobStore } from './storage.js';
 import { Visualizer } from './visualizer.js';
 import { SeekBar } from './seekbar.js';
-import { Tutorial } from './tutorial.js';
+import { Tutorial } from './tutorial.js?v=2';
 import { share } from './contribute.js';
 import { processVoiceRecording } from './voice-processing.js';
 import './supabase-config.js';  // side-effect: signs in anonymously on load
@@ -29,6 +29,12 @@ class App {
       // Ensure AudioContext is resumed on any user gesture
       const resumeAudio = async () => {
         await Tone.start();
+        // See audio.js start(): move off the iOS ringer channel so the mute
+        // switch doesn't silence playback. Set on first gesture too, since pads
+        // can be auditioned before Play is pressed.
+        try {
+          if (navigator.audioSession) navigator.audioSession.type = 'playback';
+        } catch (e) { /* unsupported — fine */ }
         document.removeEventListener('click', resumeAudio);
         document.removeEventListener('keydown', resumeAudio);
       };

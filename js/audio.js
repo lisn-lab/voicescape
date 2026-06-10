@@ -60,6 +60,14 @@ export class AudioEngine {
 
   async start() {
     await Tone.start();
+    // iOS Safari routes Web Audio through the ringer channel by default, so the
+    // hardware mute switch silences playback even though the AudioContext is
+    // running (the visualiser still animates — "looks playing, no sound"). Asking
+    // for the 'playback' audio session moves it to the media channel, which the
+    // mute switch doesn't gate. Safari 16.4+; a no-op everywhere else.
+    try {
+      if (navigator.audioSession) navigator.audioSession.type = 'playback';
+    } catch (e) { /* unsupported — fine */ }
     this.jamStartOffset = this.backgroundStartOffset;
     this.backgroundPlayer.unsync();
     this.backgroundPlayer.sync().start(0, this.backgroundStartOffset);

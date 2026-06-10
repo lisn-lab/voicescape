@@ -271,6 +271,30 @@ button:active { transform: scale(0.97); }
 
 .mobile-grid .pad .key-letter { display: none; }
 
+/* Phone / narrow viewport: the pad board is taller than the screen, so the
+   default vertical centring of #pad-container left the first screenful empty
+   and pushed the pads below the fold. Start the board at the top instead, let
+   the top bar wrap, and use the full width so it fits the phone. */
+@media (max-width: 1023px) {
+  #top-bar { padding: 0.6rem 0.9rem; flex-wrap: wrap; gap: 0.5rem; }
+  #top-bar h1 { font-size: 1.2rem; }
+  #transport-controls { gap: 0.5rem; flex-wrap: wrap; }
+
+  #pad-container {
+    justify-content: flex-start;
+    padding: 0.5rem 0.5rem 1rem;
+  }
+
+  .mobile-grid {
+    max-width: 100%;
+    padding: 0.25rem;
+    gap: 0.4rem;
+  }
+  .mobile-grid .pad { height: 64px; }
+
+  #bottom-bar { padding: 0.75rem 1rem; }
+}
+
 /* REC button */
 #rec-btn {
   background: #666;
