@@ -9,6 +9,26 @@ import { getStoredDemographics, saveDemographics } from './demographics.js';
 
 const APP_VERSION = '2026-06-08';
 
+// Country code -> display name for the prefill, e.g. 'GB' -> 'United Kingdom'.
+// Intl.DisplayNames is built in; fall back to the raw code if unavailable.
+function countryName(code) {
+  if (!code || code === 'ZZ') return '';
+  try {
+    return new Intl.DisplayNames(['en'], { type: 'region' }).of(code) || code;
+  } catch {
+    return code;
+  }
+}
+
+// Human-readable prefill from a resolved geo object, skipping empty/unknown parts.
+function prefillLocation(geo) {
+  return [geo.city, geo.region, countryName(geo.country)]
+    .filter((p) => p && p !== 'Unknown')
+    .join(', ');
+}
+
+const NO_GEO = Object.freeze({ country: 'ZZ', region: 'Unknown', city: '' });
+
 // Bumped on every share() call so a render that resolves after a newer share()
 // has taken over the (singleton) card is ignored instead of writing to it.
 let shareSeq = 0;
@@ -23,6 +43,7 @@ function $(id) { return document.getElementById(id); }
 export async function share(resultPromise) {
   const card = $('share-card');
   const demoBlock = $('share-demographics');
+  const aboutBox = card.querySelector('textarea[name="about"]');
   const textarea = card.querySelector('textarea[name="feedback"]');
   const sub = card.querySelector('.share-card-sub');
   const submitBtn = $('share-submit-btn');
@@ -42,6 +63,7 @@ export async function share(resultPromise) {
   };
 
   textarea.value = '';
+  if (aboutBox) aboutBox.value = '';
   status.textContent = '';
   status.classList.remove('error');
   submitBtn.disabled = false;
@@ -75,7 +97,16 @@ export async function share(resultPromise) {
     }
   });
 
-  const geoPromise = getLocation();
+  // Only look up + ask for location on the first share (when the demographics
+  // block is shown). Prefill the field as soon as it resolves.
+  const geoPromise = needDemographics ? getLocation() : Promise.resolve(null);
+  if (needDemographics) {
+    geoPromise.then((g) => {
+      if (seq !== shareSeq || !active) return;
+      const input = demoBlock && demoBlock.querySelector('[name="locationText"]');
+      if (input && g && !input.value) input.value = prefillLocation(g);
+    });
+  }
 
   return new Promise((resolve) => {
     // Attach via .onclick (not addEventListener) so each share() invocation
@@ -104,19 +135,32 @@ export async function share(resultPromise) {
         resolve({ ok: false });
         return;
       }
-      // First share: capture + cache the demographics from this card.
+      // First share: capture + cache the ask-once fields (age, gender, location)
+      // from this card. Later shares reuse the cached values. The free-text
+      // answers (about, feedback) are read fresh below, every share.
+      let geo, locationText;
       if (needDemographics && demoBlock) {
         const sel = (n) => demoBlock.querySelector(`[name="${n}"]`);
+        // No tick box: the prefilled "Where are you from?" field is the control.
+        // Leaving it (edited or not) opts in; clearing it opts out of all location
+        // storage. The visible field doubles as the disclosure of what we detected.
+        locationText = sel('locationText').value.trim();
+        const looked = (await geoPromise) || NO_GEO;
+        geo = locationText ? looked : NO_GEO;
         saveDemographics({
           ageBand: sel('ageBand').value || '',
           gender: sel('gender').value || '',
-          selfTalkFrequency: sel('selfTalkFrequency').value || '',
-          about: sel('about').value || '',
+          geo,
+          locationText,
         });
+      } else {
+        const stored = getStoredDemographics() || {};
+        geo = stored.geo || NO_GEO;
+        locationText = stored.locationText || '';
       }
       const demographics = resolveDemographics(getStoredDemographics());
-      const geo = await geoPromise;
-      const r = await performSubmission(result.blob, result.durationSec, demographics, textarea.value, geo, status);
+      const about = aboutBox ? aboutBox.value : '';
+      const r = await performSubmission(result.blob, result.durationSec, demographics, about, textarea.value, geo, locationText, status);
       submitBtn.disabled = false;
       // On success, close. On submission failure, leave the card open so they can
       // retry — the same onclick handler is reused, no leak.
@@ -127,7 +171,7 @@ export async function share(resultPromise) {
   });
 }
 
-async function performSubmission(mp3Blob, durationSec, demographics, feedback, geo, statusEl) {
+async function performSubmission(mp3Blob, durationSec, demographics, about, feedback, geo, locationText, statusEl) {
   const supabase = getClient();
   statusEl.classList.remove('error');
   statusEl.textContent = 'Sending…';
@@ -144,7 +188,7 @@ async function performSubmission(mp3Blob, durationSec, demographics, feedback, g
   const submissionId = crypto.randomUUID();
   const storagePath = `submissions/${submissionId}.mp3`;
   const row = buildSubmissionRow({
-    submissionId, uid, geo, demographics, feedback,
+    submissionId, uid, geo, demographics, about, feedback, locationText,
     durationSec, mp3SizeBytes: mp3Blob.size, appVersion: APP_VERSION, storagePath,
   });
 
