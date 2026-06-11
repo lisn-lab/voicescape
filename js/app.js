@@ -343,6 +343,7 @@ class App {
     const clip = this.clips.find(c => c.id === clipId);
     const padType = clip?.userRecorded ? 'user' : newMode;
     this.ui.setPadType(clipId, padType);
+    this.ui.setPadMode(clipId, newMode);
     this.ui.setPadRepeat(clipId, newRepeat);
 
     // Update clip info (used for re-renders)

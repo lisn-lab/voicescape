@@ -85,6 +85,9 @@ body {
 .pad[data-type="loop"] { background: var(--loop-idle); color: #1a1a2e; }
 .pad[data-type="oneshot"] { background: var(--oneshot-idle); color: #1a1a2e; }
 .pad[data-type="user"] { background: var(--user-clip); color: #1a1a2e; }
+/* A user clip in loop mode keeps its green "yours" fill but gains an orange
+   ring (the loop colour) so loop is distinguishable from 1×. */
+.pad[data-type="user"][data-mode="loop"] { border-color: var(--loop-idle); }
 .pad.empty { background: var(--empty); color: #6b7280; }
 
 .pad.playing { transform: scale(0.95); box-shadow: 0 0 20px currentColor; }

@@ -78,6 +78,7 @@ export class UIRenderer {
     if (clip) {
       pad.dataset.clipId = clip.id;
       pad.dataset.type = clip.userRecorded ? 'user' : clip.type;
+      pad.dataset.mode = clip.type === 'loop' ? 'loop' : 'oneshot';
       pad.dataset.repeat = String(clip.repeat || 1);
 
       const keyLabel = document.createElement('span');
@@ -140,6 +141,7 @@ export class UIRenderer {
       padEl.classList.remove('empty');
       padEl.dataset.clipId = clip.id;
       padEl.dataset.type = 'user';
+      padEl.dataset.mode = clip.type === 'loop' ? 'loop' : 'oneshot';
       padEl.dataset.repeat = String(clip.repeat || 1);
       padEl.innerHTML = '';
 
@@ -180,13 +182,28 @@ export class UIRenderer {
     this._renderDots(pad);
   }
 
+  // Playback mode ('loop' | 'oneshot') tracked separately from data-type, so a
+  // user clip can keep its green data-type="user" colour while still exposing
+  // loop state (orange ring via CSS, no dots).
+  setPadMode(clipId, mode) {
+    const pad = this.pads.get(clipId);
+    if (!pad) return;
+    pad.dataset.mode = mode === 'loop' ? 'loop' : 'oneshot';
+    this._renderDots(pad);
+  }
+
   _renderDots(pad) {
     // Remove existing dot row if present
     const existing = pad.querySelector('.pad-dots');
     if (existing) existing.remove();
 
     const type = pad.dataset.type;
-    // Only render dots for one-shot or user clips in one-shot mode
+    // data-mode is authoritative; built-in pads fall back to their type, which
+    // already encodes the mode.
+    const mode = pad.dataset.mode || (type === 'loop' ? 'loop' : 'oneshot');
+    // Loop mode shows no dots — colour / ring signals loop instead.
+    if (mode === 'loop') return;
+    // Only one-shot or user clips carry a repeat-count dot row.
     if (type !== 'oneshot' && type !== 'user') return;
 
     const repeat = parseInt(pad.dataset.repeat || '1', 10);
